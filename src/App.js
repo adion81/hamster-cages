@@ -1,63 +1,66 @@
-import React,{Component} from 'react';
+import React,{useState} from 'react';
 import './App.css';
 import HamsterCage from './components/HamsterCage';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import HamsterForm from "./components/HamsterForm";
 
-class App extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      hamsters: [
-        {
-          name: "Chuckles",
-          color:"Brown",
-          age: 2,
-          hasWheel:true
-        },
-        {
-          name: "George",
-          color:"Light Grey",
-          age: 4,
-          hasWheel:false
-        },
-        {
-          name: "Tickles",
-          color:"Blue",
-          age: 5,
-          hasWheel:true
-        }
-      ]
+const App = props  => {
+  const [hamsters,setHamsters] = useState([
+    {
+      name: "Chuckles",
+      color:"Brown",
+      age: 2,
+      hasWheel:true
+    },
+    {
+      name: "George",
+      color:"Light Grey",
+      age: 4,
+      hasWheel:false
+    },
+    {
+      name: "Tickles",
+      color:"Blue",
+      age: 5,
+      hasWheel:true
     }
-  }
+  ])
 
-  handleWheel = (index) => {
+  const handleWheel = (index) => {
+    let newArr  = [...hamsters];
+    newArr.forEach((ham) => {
+      ham.hasWheel = false
+    })
     console.log(index);
-    let newArr  = [...this.state.hamsters];
-    newArr[index] = {...newArr[index],hasWheel: !newArr[index].hasWheel}
+    newArr[index] = {...newArr[index],hasWheel: true}
     console.log(newArr);
-    this.setState({hamsters:newArr});
+    setHamsters(newArr);
   }
 
-  render(){
-    return(
-      <div>
-        {
-          this.state.hamsters.map((ham,i) => {
-            return <HamsterCage 
-                        name={ham.name}
-                        color={ham.color}
-                        age={ham.age}
-                        hasWheel={ham.hasWheel}
-                        key={i}
-                        idx={i}
-                        handleWheel={this.handleWheel}
-                    />
-          })
-        }
-      </div>
-    );
+  const handleAddHamster = (hamster) => {
+    setHamsters(banana => [...banana,hamster]);
   }
+
+  return(
+    <div>
+      <HamsterForm 
+        handleAddHamster={handleAddHamster}
+      />
+      {
+        hamsters.map((ham,i) => {
+          return <HamsterCage 
+                      name={ham.name}
+                      color={ham.color}
+                      age={ham.age}
+                      hasWheel={ham.hasWheel}
+                      key={i}
+                      idx={i}
+                      handleWheel={handleWheel}
+                  /> 
+        })
+      }
+    </div>
+  );
 }
 
 export default App;
