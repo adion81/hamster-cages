@@ -22,7 +22,7 @@ const App = props  => {
       name: "Tickles",
       color:"Blue",
       age: 5,
-      hasWheel:true
+      hasWheel:false
     }
   ])
 
@@ -57,6 +57,11 @@ const App = props  => {
                       idx={i}
                       handleWheel={handleWheel}
                   /> 
+        })
+      }
+      {
+        hamsters.map((ham,i) => {
+          return ham.hasWheel ? <p key={i}>{ham.name}</p> : null
         })
       }
     </div>
